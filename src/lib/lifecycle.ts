@@ -1,10 +1,12 @@
 
 import { ZombieStatus } from './zombie';
+import { TraceData } from './types';
 
 export interface LifecycleResult {
     ageMonths: number;
     status: 'EARLY_STAGE' | 'EXECUTION_LAG' | 'HIGH_FAILURE_PROBABILITY' | 'ON_TRACK';
     flags: string[];
+    trace?: TraceData;
 }
 
 export function assessLifecycle(startDate: Date, activityStatus: ZombieStatus): LifecycleResult {
@@ -41,5 +43,33 @@ export function assessLifecycle(startDate: Date, activityStatus: ZombieStatus): 
         status = 'EARLY_STAGE';
     }
 
-    return { ageMonths, status, flags };
+    // Trace Logic
+    const traceRules = [
+        {
+            name: 'Age Threshold (> 12m)',
+            passed: ageMonths > 12, // Information only rule? passed=true means it IS older than 12m. 
+            value: `${ageMonths} months`,
+        },
+        {
+            name: 'Growth Status Check',
+            passed: !isGrowthStalled, // Passed if NOT stalled
+            value: activityStatus,
+        }
+    ];
+
+    return { 
+        ageMonths, 
+        status, 
+        flags,
+        trace: {
+            rules: traceRules,
+            inputs: {
+                startDate: startDate.toISOString(),
+                currentDate: now.toISOString(),
+                activityStatus
+            },
+            timestamp: now.toISOString(),
+            source: 'Manual Input + Activity Module'
+        }
+    };
 }

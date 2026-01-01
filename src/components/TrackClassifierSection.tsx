@@ -5,12 +5,15 @@ import { TokenData } from '@/lib/types';
 import { ZombieStatus } from '@/lib/zombie';
 import { classifyTrack, ClassificationResult } from '@/lib/classifier';
 
+import TracePanel from './TracePanel';
+
 interface Props {
     tokenData: TokenData | null;
     zombieStatus: ZombieStatus;
+    isResearcherMode?: boolean;
 }
 
-export default function TrackClassifierSection({ tokenData, zombieStatus }: Props) {
+export default function TrackClassifierSection({ tokenData, zombieStatus, isResearcherMode = false }: Props) {
     const [isProductLive, setIsProductLive] = useState(false);
     const [isRevenueOnChain, setIsRevenueOnChain] = useState(false);
     const [result, setResult] = useState<ClassificationResult | null>(null);

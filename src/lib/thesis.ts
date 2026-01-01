@@ -2,6 +2,7 @@
 import { DevAnalysisResult } from './dev-analysis';
 import { FlowAnalysisResult } from './flow';
 import { TreasuryAnalysis } from './treasury';
+import { TraceData } from './types';
 
 export interface Catalyst {
     description: string;
@@ -17,6 +18,7 @@ export interface Thesis {
     status: 'ACTIVE' | 'UNDER_PRESSURE' | 'EXPIRED' | 'INVALIDATED';
     confidence: number; // 0-100
     warnings: string[];
+    trace?: TraceData;
 }
 
 export function checkThesisStatus(
@@ -83,10 +85,40 @@ export function checkThesisStatus(
 
     if (confidence < 0) confidence = 0;
 
+    // Trace Logic
+    const traceRules = [
+        {
+             name: 'Expiry Check',
+             passed: now <= expiry,
+             value: `Expires: ${thesis.expiryDate}`,
+        },
+        {
+             name: 'Dev Signal Impact',
+             passed: !signals.dev || signals.dev.status !== 'INACTIVE',
+             value: signals.dev?.status || 'N/A'
+        },
+        {
+             name: 'Treasury Risk Impact',
+             passed: !signals.treasury || signals.treasury.riskLevel !== 'CRITICAL',
+             value: signals.treasury?.riskLevel || 'N/A'
+        }
+    ];
+
     return {
         ...thesis,
         status,
         confidence,
-        warnings: newWarnings
+        warnings: newWarnings,
+        trace: {
+            rules: traceRules,
+            inputs: {
+                 expiryDate: thesis.expiryDate,
+                 devStatus: signals.dev?.status,
+                 flowThesisStatus: signals.flow?.thesisStatus,
+                 treasuryRisk: signals.treasury?.riskLevel
+            },
+            timestamp: now.toISOString(),
+            source: 'Cross-Module Synthesis'
+        }
     };
 }

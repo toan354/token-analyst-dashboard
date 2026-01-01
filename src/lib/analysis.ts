@@ -23,5 +23,41 @@ export function assessGatekeeper(token: TokenData): GatekeeperResult {
       flags.push('Zombie Liquidity (Vol < $10k)');
   }
 
-  return { status, flags };
+  // Trace Logic
+  const traceRules = [
+      { 
+          name: 'Liquidity Check (> $500k)', 
+          passed: token.total_volume >= 500000, 
+          value: `$${token.total_volume.toLocaleString()}`, 
+          threshold: '$500,000' 
+      },
+      { 
+          name: 'Microcap Check (> $5M)', 
+          passed: token.market_cap >= 5000000, 
+          value: `$${token.market_cap.toLocaleString()}`, 
+          threshold: '$5,000,000' 
+      },
+      { 
+          name: 'Zombie Check (Vol > $10k)', 
+          passed: token.total_volume >= 10000, 
+          value: `$${token.total_volume.toLocaleString()}`, 
+          threshold: '$10,000' 
+      }
+  ];
+
+  return { 
+      status, 
+      flags,
+      trace: {
+          rules: traceRules,
+          inputs: {
+              marketCap: token.market_cap,
+              volume: token.total_volume,
+              fdv: token.fully_diluted_valuation || 'N/A',
+              price: token.current_price
+          },
+          timestamp: new Date().toISOString(),
+          source: 'CoinGecko API'
+      }
+  };
 }

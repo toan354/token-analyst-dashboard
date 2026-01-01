@@ -5,11 +5,14 @@ import { fetchAndAnalyzeBlocks, ActivityReport, getHistory, HistoryEntry } from 
 import { assessZombieStatus, ZombieAnalysis } from '@/lib/zombie';
 import ActivityChart from './ActivityChart';
 
+import TracePanel from './TracePanel';
+
 interface Props {
     onAnalysisChange?: (analysis: ZombieAnalysis) => void;
+    isResearcherMode?: boolean;
 }
 
-export default function ActivitySection({ onAnalysisChange }: Props) {
+export default function ActivitySection({ onAnalysisChange, isResearcherMode = false }: Props) {
   const [report, setReport] = useState<ActivityReport | null>(null);
   const [analysis, setAnalysis] = useState<ZombieAnalysis | null>(null);
   const [loading, setLoading] = useState(false);
@@ -124,6 +127,17 @@ export default function ActivitySection({ onAnalysisChange }: Props) {
              
              <ActivityChart report={report} />
          </div>
+      )}
+
+      {analysis && (
+            <TracePanel 
+                isActive={isResearcherMode}
+                title="Zombie Detector Trace"
+                rules={analysis.trace?.rules}
+                inputs={analysis.trace?.inputs}
+                timestamp={analysis.trace?.timestamp}
+                source={analysis.trace?.source}
+            />
       )}
     </div>
   );

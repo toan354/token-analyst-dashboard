@@ -1,5 +1,6 @@
 
 import { HistoryEntry } from './chain-data';
+import { TraceData } from './types';
 
 export type ZombieStatus = 'HEALTHY' | 'WEAKENING' | 'ZOMBIE_RISK' | 'INSUFFICIENT_DATA';
 
@@ -8,6 +9,7 @@ export interface ZombieAnalysis {
     consecutiveTxDrops: number;
     consecutiveUserDrops: number;
     description: string;
+    trace?: TraceData;
 }
 
 export function assessZombieStatus(history: HistoryEntry[]): ZombieAnalysis {
@@ -59,10 +61,40 @@ export function assessZombieStatus(history: HistoryEntry[]): ZombieAnalysis {
         description = 'Activity fluctuates, but no sustained zombie pattern yet.';
     }
 
+    // Trace Logic
+    const traceRules = [
+        {
+            name: 'Tx Count Declining (3 Periods)',
+            passed: txDrops < 3, // Passed means NO risk, so if drops < 3 it passes check? Or should passed mean "Rule Logic True"? 
+            // Better: "Active Traffic Check" -> Passed if stable.
+            // Let's stick to "Rule Triggered" -> passed=true usually means "Good". 
+            // Rule: "Is Healthy?" -> True
+            value: `${txDrops} consecutive drops`,
+            threshold: '< 3'
+        },
+        {
+            name: 'Active Users Declining (3 Periods)',
+            passed: userDrops < 3,
+            value: `${userDrops} consecutive drops`,
+            threshold: '< 3'
+        }
+    ];
+
     return {
         status,
         consecutiveTxDrops: txDrops,
         consecutiveUserDrops: userDrops,
-        description
+        description,
+        trace: {
+            rules: traceRules,
+            inputs: {
+                historyLength: history.length,
+                lastTxCount: recent[0]?.txCount,
+                prevTxCount: recent[1]?.txCount,
+                lastUserCount: recent[0]?.uniqueSenders
+            },
+            timestamp: new Date().toISOString(),
+            source: 'RPC / Indexer'
+        }
     };
 }

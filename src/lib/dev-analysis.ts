@@ -1,5 +1,6 @@
 
 import { CommitActivity, Contributor, GitHubRepo } from './github';
+import { TraceData } from './types';
 
 export type DevStatus = 'ACTIVE' | 'WEAKENING' | 'INACTIVE';
 
@@ -10,6 +11,7 @@ export interface DevAnalysisResult {
     lastCommitDate: string;
     commitTrend: 'Rising' | 'Flat' | 'Declining' | 'None';
     activeContributorsCount: number;
+    trace?: TraceData;
 }
 
 export function assessDevActivity(
@@ -74,12 +76,30 @@ export function assessDevActivity(
         desc = 'Consistent development activity detected.';
     }
 
+    // Trace Logic
+    const traceRules = [
+        { name: 'Inactivity Check (>60 days)', passed: diffDays <= 60, value: `${diffDays} days ago`, threshold: '< 60 days' },
+        { name: 'Recent Activity Check (<14 days)', passed: diffDays < 14, value: `${diffDays} days ago`, threshold: '< 14 days' },
+        { name: 'Commit Trend (Declining)', passed: decliningWeeks < 3, value: trend, threshold: '< 3 declining weeks' },
+        { name: 'Bus Factor Check (>1 Dev)', passed: contributors.length > 1, value: `${contributors.length} contributors`, threshold: '> 1 contributor' }
+    ];
+
     return {
         status,
         flags,
         description: desc,
         lastCommitDate: lastPush.toLocaleDateString(),
         commitTrend: trend,
-        activeContributorsCount: contributors.length
+        activeContributorsCount: contributors.length,
+        trace: {
+            rules: traceRules,
+            inputs: {
+                repoPushedAt: repo.pushed_at,
+                commitsLast4Weeks: recentWeeks.map(w => w.total),
+                contributorCount: contributors.length
+            },
+            timestamp: new Date().toISOString(),
+            source: 'GitHub API'
+        }
     };
 }

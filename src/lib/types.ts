@@ -12,7 +12,23 @@ export interface TokenData {
   github_repos: string[];
 }
 
+export interface TraceRule {
+    name: string;
+    passed: boolean;
+    value?: string | number | null;
+    threshold?: string | number;
+}
+
+export interface TraceData {
+    rules: TraceRule[];
+    inputs: Record<string, any>;
+    timestamp: string;
+    source: string;
+    description?: string;
+}
+
 export interface GatekeeperResult {
   status: 'PASS' | 'WARN' | 'FAIL';
   flags: string[];
+  trace?: TraceData;
 }

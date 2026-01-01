@@ -5,12 +5,15 @@ import { getHistory } from '@/lib/chain-data';
 import { assessZombieStatus, ZombieStatus } from '@/lib/zombie';
 import { assessLifecycle, LifecycleResult } from '@/lib/lifecycle';
 
+import TracePanel from './TracePanel';
+
 interface Props {
     zombieStatus: ZombieStatus;
     onResultChange?: (result: LifecycleResult) => void;
+    isResearcherMode?: boolean;
 }
 
-export default function LifecycleSection({ zombieStatus, onResultChange }: Props) {
+export default function LifecycleSection({ zombieStatus, onResultChange, isResearcherMode = false }: Props) {
     const [startDate, setStartDate] = useState('');
     const [result, setResult] = useState<LifecycleResult | null>(null);
 
@@ -84,6 +87,17 @@ export default function LifecycleSection({ zombieStatus, onResultChange }: Props
                 <span>Current Trend: <span className={zombieStatus === 'HEALTHY' ? 'text-green-400' : 'text-yellow-400'}>{zombieStatus}</span></span>
                 <span>Threshold: &gt;6m (Lag), &gt;12m (Fail Prob)</span>
              </div>
+
+             {result && (
+                <TracePanel 
+                    isActive={isResearcherMode}
+                    title="Lifecycle Logic Trace"
+                    rules={result.trace?.rules}
+                    inputs={result.trace?.inputs}
+                    timestamp={result.trace?.timestamp}
+                    source={result.trace?.source}
+                />
+             )}
         </div>
     );
 }

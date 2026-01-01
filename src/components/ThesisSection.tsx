@@ -6,13 +6,16 @@ import { DevAnalysisResult } from '@/lib/dev-analysis';
 import { FlowAnalysisResult } from '@/lib/flow';
 import { TreasuryAnalysis } from '@/lib/treasury';
 
+import TracePanel from './TracePanel';
+
 interface Props {
     devResult?: DevAnalysisResult;
     flowResult?: FlowAnalysisResult;
     treasuryResult?: TreasuryAnalysis;
+    isResearcherMode?: boolean;
 }
 
-export default function ThesisSection({ devResult, flowResult, treasuryResult }: Props) {
+export default function ThesisSection({ devResult, flowResult, treasuryResult, isResearcherMode = false }: Props) {
     const [statement, setStatement] = useState('');
     const [catalystDesc, setCatalystDesc] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
@@ -176,6 +179,15 @@ export default function ThesisSection({ devResult, flowResult, treasuryResult }:
                      </div>
                  </div>
              )}
+
+            <TracePanel 
+                isActive={isResearcherMode}
+                title="Thesis & Discipline Trace"
+                rules={activeThesis?.trace?.rules}
+                inputs={activeThesis?.trace?.inputs}
+                timestamp={activeThesis?.trace?.timestamp}
+                source={activeThesis?.trace?.source}
+            />
         </div>
     );
 }

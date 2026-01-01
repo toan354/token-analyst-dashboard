@@ -9,6 +9,7 @@ import FlowSection from '@/components/FlowSection';
 import TreasurySection from '@/components/TreasurySection';
 import ThesisSection from '@/components/ThesisSection';
 import SummaryCard from '@/components/SummaryCard';
+import TracePanel from '@/components/TracePanel';
 
 import { TokenData, GatekeeperResult } from '@/lib/types';
 import { fetchTokenData, searchTokens } from '@/lib/api';
@@ -30,6 +31,8 @@ export default function Home() {
   const [devResult, setDevResult] = useState<DevAnalysisResult | undefined>();
   const [flowResult, setFlowResult] = useState<FlowAnalysisResult | undefined>();
   const [treasuryResult, setTreasuryResult] = useState<TreasuryAnalysis | undefined>();
+
+  const [isResearcherMode, setIsResearcherMode] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -112,6 +115,18 @@ export default function Home() {
           Analyst Dashboard
         </h1>
         <p className="text-gray-400">Local-First Crypto Health Monitor</p>
+        
+        {/* Mode Toggle */}
+        <div className="flex items-center justify-center gap-4 mt-6">
+            <span className={`text-sm font-bold ${!isResearcherMode ? 'text-blue-400' : 'text-gray-600'}`}>Analyst Mode</span>
+            <button 
+                onClick={() => setIsResearcherMode(!isResearcherMode)}
+                className={`relative w-14 h-7 rounded-full transition-colors duration-300 focus:outline-none ${isResearcherMode ? 'bg-indigo-600' : 'bg-slate-700'}`}
+            >
+                <div className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-transform duration-300 ${isResearcherMode ? 'translate-x-7' : 'translate-x-0'}`}></div>
+            </button>
+            <span className={`text-sm font-bold ${isResearcherMode ? 'text-indigo-400' : 'text-gray-600'}`}>Researcher Mode</span>
+        </div>
       </header>
 
       {/* Summary Risk Dashboard */}
@@ -244,6 +259,15 @@ export default function Home() {
                     ))}
                 </ul>
             )}
+
+            <TracePanel 
+                isActive={isResearcherMode}
+                title="Gatekeeper Logic Trace"
+                rules={gatekeeperResult.trace?.rules}
+                inputs={gatekeeperResult.trace?.inputs}
+                timestamp={gatekeeperResult.trace?.timestamp}
+                source={gatekeeperResult.trace?.source}
+            />
           </div>
 
         </div>
@@ -256,26 +280,33 @@ export default function Home() {
               devResult={devResult}
               flowResult={flowResult}
               treasuryResult={treasuryResult}
-           />
+              isResearcherMode={isResearcherMode}
+            />
       </section>
 
       {/* Tool 2: Network Pulse, Lifecycle, & Classifier */}
       <section className="mt-12 space-y-8">
           <ActivitySection 
-              onAnalysisChange={setZombieAnalysis} 
+              onAnalysisChange={setZombieAnalysis}
+              isResearcherMode={isResearcherMode}
           />
           
           <LifecycleSection 
               zombieStatus={zombieAnalysis?.status || 'INSUFFICIENT_DATA'} 
               onResultChange={setLifecycleResult}
+              isResearcherMode={isResearcherMode}
           />
 
           <TrackClassifierSection
               tokenData={token}
               zombieStatus={zombieAnalysis?.status || 'INSUFFICIENT_DATA'}
+              isResearcherMode={isResearcherMode}
           />
 
-          <DevActivitySection onAnalysisComplete={setDevResult} />
+          <DevActivitySection 
+              onAnalysisComplete={setDevResult}
+              isResearcherMode={isResearcherMode}
+          />
           
           <FlowSection 
               tokenData={token} 

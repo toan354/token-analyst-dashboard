@@ -9,12 +9,14 @@ import {
     GitHubRepo, CommitActivity, Contributor 
 } from '@/lib/github';
 import { assessDevActivity, DevAnalysisResult } from '@/lib/dev-analysis';
+import TracePanel from './TracePanel';
 
 interface Props {
     onAnalysisComplete?: (result: DevAnalysisResult) => void;
+    isResearcherMode?: boolean;
 }
 
-export default function DevActivitySection({ onAnalysisComplete }: Props) {
+export default function DevActivitySection({ onAnalysisComplete, isResearcherMode = false }: Props) {
     const [repoUrl, setRepoUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [chartsData, setChartsData] = useState<any[]>([]);
@@ -152,8 +154,17 @@ export default function DevActivitySection({ onAnalysisComplete }: Props) {
                              </div>
                          ))}
                      </div>
-                 </div>
+                  </div>
              )}
+
+            <TracePanel 
+                isActive={isResearcherMode}
+                title="Dev Activity Trace"
+                rules={analysis?.trace?.rules}
+                inputs={analysis?.trace?.inputs}
+                timestamp={analysis?.trace?.timestamp}
+                source={analysis?.trace?.source}
+            />
         </div>
     );
 }
