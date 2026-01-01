@@ -1,3 +1,202 @@
+/* ============================================
+   LAYOUT ARCHITECTURE - CONSTRAINT SYSTEM
+   ============================================
+   
+   STRICT RULES:
+   1. ONLY AppShell may use height: 100vh
+   2. ONLY MainScrollArea may scroll
+   3. NO absolute/fixed positioning for content
+   4. All icons/SVGs max-height: 80px
+   5. All sections must have min-height
+   ============================================ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================
+   CSS RESET & BASE
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* Prevent body scroll - only MainScrollArea scrolls */
+}
+
+body {
+  font-family: var(--font-inter, system-ui, -apple-system, sans-serif);
+  line-height: 1.5;
+  color: #e4e4e7;
+  background-color: #09090b;
+}
+
+/* ============================================
+   LAYOUT CONSTRAINT CLASSES
+   ============================================ */
+
+/* AppShell - ONLY component allowed 100vh */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* GlobalHeader - fixed height, no scroll */
+.global-header {
+  flex-shrink: 0;
+  max-height: 100px;
+  min-height: 48px;
+  padding: 12px 16px;
+  background-color: #18181b;
+  border-bottom: 1px solid #27272a;
+}
+
+/* ContextBar - optional, small */
+.context-bar {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  background-color: #18181b;
+  border-bottom: 1px solid #27272a;
+  font-size: 0.875rem;
+  color: #a1a1aa;
+}
+
+/* MainScrollArea - ONLY scrollable container */
+.main-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+}
+
+/* ============================================
+   SECTION BASE STYLES
+   ============================================ */
+
+.dashboard-section {
+  min-height: 120px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+}
+
+.dashboard-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #27272a;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #71717a;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fafafa;
+}
+
+.section-content {
+  color: #a1a1aa;
+}
+
+/* ============================================
+   ICON/SVG CONSTRAINTS - CRITICAL
+   ============================================ */
+
+.dashboard-section svg,
+.dashboard-section img {
+  max-height: 80px;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+}
+
+/* ============================================
+   STATUS INDICATORS
+   ============================================ */
+
+.status-pass {
+  color: #22c55e;
+}
+
+.status-warning {
+  color: #eab308;
+}
+
+.status-fail {
+  color: #ef4444;
+}
+
+.status-unknown {
+  color: #71717a;
+}
+
+/* ============================================
+   EMPTY STATE HANDLING
+   ============================================ */
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  color: #52525b;
+  font-style: italic;
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-muted {
+  color: #71717a;
+}
+
+.text-small {
+  font-size: 0.875rem;
+}
+
+.font-mono {
+  font-family: ui-monospace, monospace;
+}

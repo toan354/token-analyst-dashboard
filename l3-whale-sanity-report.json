@@ -1,0 +1,187 @@
+{
+  "title": "L3 WHALE TRANSFER BEHAVIOR - DATA SANITY CHECK",
+  "timestamp": "2026-01-01T09:33:50.057Z",
+  "overallStatus": "PASS",
+  "recommendation": "SAFE TO USE",
+  "summary": {
+    "datasetsChecked": 4,
+    "totalIssues": 0,
+    "issues": []
+  },
+  "datasets": [
+    {
+      "name": "MOCK_LOW_STEADY",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "threshold": 10000,
+        "invalidEntries": 0
+      },
+      "countVolume": {
+        "status": "PASS",
+        "correlation": "0.949",
+        "outliers": 0
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 100000,
+        "median": 75000,
+        "maxMedianRatio": "1.33"
+      },
+      "behavioral": {
+        "regime": "quiet",
+        "coefficientOfVariation": "0.26",
+        "suddenTransitions": 0,
+        "transitionExamples": []
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_HIGH_BURST",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "threshold": 25000,
+        "invalidEntries": 0
+      },
+      "countVolume": {
+        "status": "PASS",
+        "correlation": "0.991",
+        "outliers": 0
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 5500000,
+        "median": 170000,
+        "maxMedianRatio": "32.35"
+      },
+      "behavioral": {
+        "regime": "bursty",
+        "coefficientOfVariation": "1.16",
+        "suddenTransitions": 2,
+        "transitionExamples": [
+          {
+            "index": 3,
+            "from": 5,
+            "to": 25,
+            "ratio": "5.00"
+          },
+          {
+            "index": 6,
+            "from": 40,
+            "to": 8,
+            "ratio": "0.20"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_DESTINATION_SHIFT",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "threshold": 25000,
+        "invalidEntries": 0
+      },
+      "countVolume": {
+        "status": "PASS",
+        "correlation": "1.000",
+        "outliers": 0
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 800000,
+        "median": 600000,
+        "maxMedianRatio": "1.33"
+      },
+      "behavioral": {
+        "regime": "quiet",
+        "coefficientOfVariation": "0.21",
+        "suddenTransitions": 0,
+        "transitionExamples": []
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_MIXED_ACTIVITY",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "threshold": 20000,
+        "invalidEntries": 0
+      },
+      "countVolume": {
+        "status": "PASS",
+        "correlation": "0.998",
+        "outliers": 0
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 900000,
+        "median": 400000,
+        "maxMedianRatio": "2.25"
+      },
+      "behavioral": {
+        "regime": "active",
+        "coefficientOfVariation": "0.45",
+        "suddenTransitions": 2,
+        "transitionExamples": [
+          {
+            "index": 5,
+            "from": 15,
+            "to": 4,
+            "ratio": "0.27"
+          },
+          {
+            "index": 6,
+            "from": 4,
+            "to": 18,
+            "ratio": "4.50"
+          }
+        ]
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    }
+  ]
+}

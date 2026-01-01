@@ -1,0 +1,139 @@
+{
+  "title": "L3 EXCHANGE VS NON-EXCHANGE FLOW - DATA SANITY CHECK",
+  "timestamp": "2026-01-01T09:20:35.098Z",
+  "overallStatus": "WARNING",
+  "recommendation": "USE WITH CAUTION",
+  "summary": {
+    "datasetsChecked": 4,
+    "totalIssues": 1,
+    "issues": [
+      "[MOCK_ROTATING] Frequent labeling shifts detected"
+    ]
+  },
+  "datasets": [
+    {
+      "name": "MOCK_EXCHANGE_DOMINANT",
+      "status": "PASS",
+      "alignment": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "invalidEntries": []
+      },
+      "reconciliation": {
+        "status": "PASS",
+        "exchangeNetFlowVerified": true,
+        "maxMedianRatio": "1.33"
+      },
+      "labeling": {
+        "status": "PASS",
+        "exchangeShareMin": "89.3",
+        "exchangeShareMax": "92.4",
+        "exchangeShareAvg": "90.7",
+        "regimeShifts": 0
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_NONEXCHANGE_DOMINANT",
+      "status": "PASS",
+      "alignment": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "invalidEntries": []
+      },
+      "reconciliation": {
+        "status": "PASS",
+        "exchangeNetFlowVerified": true,
+        "maxMedianRatio": "1.44"
+      },
+      "labeling": {
+        "status": "PASS",
+        "exchangeShareMin": "30.2",
+        "exchangeShareMax": "46.4",
+        "exchangeShareAvg": "38.3",
+        "regimeShifts": 0
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_ROTATING",
+      "status": "WARNING",
+      "alignment": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "invalidEntries": []
+      },
+      "reconciliation": {
+        "status": "PASS",
+        "exchangeNetFlowVerified": true,
+        "maxMedianRatio": "1.26"
+      },
+      "labeling": {
+        "status": "WARNING",
+        "exchangeShareMin": "41.2",
+        "exchangeShareMax": "85.2",
+        "exchangeShareAvg": "62.8",
+        "regimeShifts": 10
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_BALANCED",
+      "status": "PASS",
+      "alignment": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01 to 2024-01-14"
+      },
+      "numeric": {
+        "status": "PASS",
+        "invalidEntries": []
+      },
+      "reconciliation": {
+        "status": "PASS",
+        "exchangeNetFlowVerified": true,
+        "maxMedianRatio": "1.08"
+      },
+      "labeling": {
+        "status": "PASS",
+        "exchangeShareMin": "75.1",
+        "exchangeShareMax": "76.6",
+        "exchangeShareAvg": "75.7",
+        "regimeShifts": 0
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    }
+  ]
+}

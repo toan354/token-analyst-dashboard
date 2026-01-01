@@ -1,0 +1,153 @@
+{
+  "title": "L3 ON-CHAIN FLOW OVERVIEW - DATA SANITY CHECK",
+  "timestamp": "2026-01-01T09:09:09.993Z",
+  "overallStatus": "PASS",
+  "recommendation": "SAFE TO USE",
+  "summary": {
+    "datasetsChecked": 4,
+    "totalIssues": 0,
+    "issues": []
+  },
+  "datasets": [
+    {
+      "name": "MOCK_INFLOW_DOMINANT",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01T00:00:00.000Z to 2024-01-14T00:00:00.000Z"
+      },
+      "numeric": {
+        "status": "PASS",
+        "netFlowVerified": true,
+        "mismatches": []
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 280,
+        "median": 120,
+        "maxMedianRatio": "2.33"
+      },
+      "behavioral": {
+        "dominantDirection": "net_inflow",
+        "regime": "trending",
+        "signChanges": 0,
+        "changeRatio": "0.00",
+        "extremeBursts": [
+          130
+        ]
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_OUTFLOW_DOMINANT",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01T00:00:00.000Z to 2024-01-14T00:00:00.000Z"
+      },
+      "numeric": {
+        "status": "PASS",
+        "netFlowVerified": true,
+        "mismatches": []
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 210,
+        "median": 115,
+        "maxMedianRatio": "1.83"
+      },
+      "behavioral": {
+        "dominantDirection": "net_outflow",
+        "regime": "trending",
+        "signChanges": 0,
+        "changeRatio": "0.00",
+        "extremeBursts": [
+          175
+        ]
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_OSCILLATING",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01T00:00:00.000Z to 2024-01-14T00:00:00.000Z"
+      },
+      "numeric": {
+        "status": "PASS",
+        "netFlowVerified": true,
+        "mismatches": []
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 140,
+        "median": 90,
+        "maxMedianRatio": "1.56"
+      },
+      "behavioral": {
+        "dominantDirection": "oscillating",
+        "regime": "unstable",
+        "signChanges": 13,
+        "changeRatio": "1.00",
+        "extremeBursts": [
+          60
+        ]
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    },
+    {
+      "name": "MOCK_STABLE_TRENDING",
+      "status": "PASS",
+      "timeSeries": {
+        "status": "PASS",
+        "intervalType": "daily",
+        "dataPoints": 14,
+        "range": "2024-01-01T00:00:00.000Z to 2024-01-14T00:00:00.000Z"
+      },
+      "numeric": {
+        "status": "PASS",
+        "netFlowVerified": true,
+        "mismatches": []
+      },
+      "scale": {
+        "status": "PASS",
+        "max": 165,
+        "median": 94,
+        "maxMedianRatio": "1.76"
+      },
+      "behavioral": {
+        "dominantDirection": "net_inflow",
+        "regime": "trending",
+        "signChanges": 0,
+        "changeRatio": "0.00",
+        "extremeBursts": [
+          59
+        ]
+      },
+      "coverage": {
+        "status": "PASS",
+        "percentage": "100.0",
+        "gaps": 0
+      }
+    }
+  ]
+}
